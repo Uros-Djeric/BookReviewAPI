@@ -176,7 +176,7 @@ Sadrži konfiguracije aplikacije.
 * Registruje RequestSanitizer kao HandlerInterceptor.
 
 ### Tok HTTP zahteva kroz slojeve
-![Image](https://imgur.com/a/Bb33t8I)
+![Dijagram](data/diagram.png)
 
 ### 8. pom.xml zavisnosti
 
