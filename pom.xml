@@ -107,7 +107,6 @@
         </dependency>
     </dependencies>
 
-    <!-- ✅ DODATO: Dependency management da “zakuca” sve Spring verzije -->
     <dependencyManagement>
         <dependencies>
             <dependency>
