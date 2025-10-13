@@ -47,6 +47,7 @@ public class BookReviewController {
             reviewService.deleteReviewById(id);
             return ResponseEntity.ok("Review deleted successfully.");
         } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
 
             String errorMessage = "Error code: 404\n" +
                     "Error message: " + e.getMessage();
