@@ -95,4 +95,9 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
     }
+
+    @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+    public ResponseEntity<Object> handleNoResourceFound(org.springframework.web.servlet.resource.NoResourceFoundException ex) {
+        return buildError(HttpStatus.NOT_FOUND, "Resource not found: " + ex.getResourcePath());
+    }
 }
