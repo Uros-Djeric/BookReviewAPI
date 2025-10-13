@@ -3,6 +3,8 @@
 Book Review API je REST aplikacija razvijena u Spring Boot-u, koja implementira slojevitu arhitekturu sa JWT autentikacijom, validacijom i centralizovanim rukovanjem greškama.
 Projekat demonstrira principe čiste arhitekture, jasne separacije odgovornosti i dobrih praksi u dizajnu API-ja.
 
+### Pregled Endpoint metoda: Pokrenuti BookReviewApplication i onda otići na http://localhost:8080/swagger-ui.html
+
 ## 📁 Struktura projekta
 Aplikacija koristi slojevitu arhitekturu, sa sledećim logičkim paketima:
 ```python
