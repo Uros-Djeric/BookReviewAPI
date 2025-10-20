@@ -1,5 +1,6 @@
 package com.example.bookreview.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class BookReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private Long id;
 
     @NotNull(message = "bookId cannot be null")
@@ -37,5 +39,6 @@ public class BookReview {
 
     private String comment;
 
+    @Schema(hidden = true)
     private LocalDateTime createdAt;
 }

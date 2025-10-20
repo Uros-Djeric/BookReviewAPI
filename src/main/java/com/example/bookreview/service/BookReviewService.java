@@ -19,7 +19,6 @@ public class BookReviewService {
     private final BookRepository bookRepository;
 
     public BookReview addReview(BookReview review) {
-        // Edge case bug: ne validira rating i bookId
         if (!bookRepository.existsById(review.getBookId())) {
             throw new IllegalArgumentException("Book with id " + review.getBookId() + " does not exist");
         }

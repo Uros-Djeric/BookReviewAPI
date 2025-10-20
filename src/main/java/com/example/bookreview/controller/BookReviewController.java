@@ -4,6 +4,9 @@ import com.example.bookreview.DTO.BookReviewUpdateDTO;
 import com.example.bookreview.exception.ResourceNotFoundException;
 import com.example.bookreview.model.BookReview;
 import com.example.bookreview.service.BookReviewService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,9 @@ public class BookReviewController {
 
     private final BookReviewService reviewService;
 
+    @Operation(
+            summary = "Creates a new review"
+    )
     @PostMapping
     public ResponseEntity<?> addReview(@Valid @RequestBody BookReview request) {
         if (request.getBookId() == null) {
@@ -32,6 +38,10 @@ public class BookReviewController {
         return ResponseEntity.ok(review);
     }
 
+    @Operation(
+            summary = "Get review(s) by bookId",
+            description = "Gathers all reviews for a single book by bookId."
+    )
     @GetMapping
     public ResponseEntity<?> getReviews(@RequestParam(required = true) Long bookId) {
         List<BookReview> reviews = reviewService.getReviewsByBookId(bookId);
@@ -41,8 +51,15 @@ public class BookReviewController {
         return ResponseEntity.ok(reviews);
     }
 
+
+    @Operation(
+            summary = "Deletes a review by ID",
+            description = "Deletes a review from the system by its unique identifier."
+    )
     @DeleteMapping
-    public ResponseEntity<String> deleteReview(@RequestParam Long id) {
+    public ResponseEntity<String> deleteReview(
+            @Parameter(description = "ID of the review to delete", example = "123")
+            @RequestParam Long id) {
         try {
             reviewService.deleteReviewById(id);
             return ResponseEntity.ok("Review deleted successfully.");
@@ -63,6 +80,7 @@ public class BookReviewController {
 //    }
 
 
+    @Operation(summary = "Updates an existing review")
     @PutMapping("/update")
     public ResponseEntity<?> updateReview(@RequestParam(required = true) Long id,
                                           @Valid @RequestBody BookReviewUpdateDTO reviewDTO) {
