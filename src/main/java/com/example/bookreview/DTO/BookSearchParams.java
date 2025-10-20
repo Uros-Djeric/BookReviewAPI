@@ -1,5 +1,6 @@
 package com.example.bookreview.DTO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -20,9 +21,11 @@ public class BookSearchParams {
     @Pattern(regexp = "asc|desc", message = "sortDir must be 'asc' or 'desc'")
     private String sortDir;
 
-    @NumberFormat
-    private Integer page;
-
-    @NumberFormat
-    private Integer size;
+//    @Schema(hidden = true)
+//    @NumberFormat
+//    private Integer page;
+//
+//    @Schema(hidden = true)
+//    @NumberFormat
+//    private Integer size;
 }

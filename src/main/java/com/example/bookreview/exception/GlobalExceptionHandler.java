@@ -1,6 +1,8 @@
 package com.example.bookreview.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private ResponseEntity<Object> buildError(HttpStatus status, String message) {
         Map<String, Object> error = new LinkedHashMap<>();
@@ -37,6 +41,9 @@ public class GlobalExceptionHandler {
     // === Validation and input errors ===
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException ex) {
+        // 🔹 ovo će ispisati ceo stack trace u konzoli
+        log.error("Validation error occurred", ex);
+
         List<String> missingFields = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getField)
                 .distinct()
@@ -51,11 +58,14 @@ public class GlobalExceptionHandler {
             message = "Missing fields: " + String.join(", ", missingFields);
         }
 
-        return buildError(HttpStatus.BAD_REQUEST, message);
+        return ResponseEntity.badRequest().body(
+                Map.of("error", Map.of("code", "400", "message", message))
+        );
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
+        log.error("Constraint violation", ex);
         String message = ex.getConstraintViolations().stream()
                 .map(v -> v.getPropertyPath() + " " + v.getMessage())
                 .collect(Collectors.joining(", "));
@@ -69,12 +79,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<Object> handleMissingRequestParam(MissingServletRequestParameterException ex) {
+        log.error("Missing req parameter",ex);
         String message = "Missing required parameter '" + ex.getParameterName() + "'";
         return buildError(HttpStatus.BAD_REQUEST, message);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        log.error("Invalid parameter!",ex);
         String param = ex.getName();
         String requiredType = ex.getRequiredType() != null
                 ? ex.getRequiredType().getSimpleName()
@@ -85,6 +97,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleBadRequest(IllegalArgumentException ex) {
+        log.error("Bad request!", ex);
         return buildError(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 

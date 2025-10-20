@@ -14,7 +14,7 @@ public class RequestSanitizer implements HandlerInterceptor {
 
     private static final Map<String, Set<String>> ALLOWED_PARAMS = Map.of(
             "/books", Set.of("id"),
-            "/books/search", Set.of("title", "author"),
+            "/books/search", Set.of("title", "author","sortField", "sortDir"),
             "/books/stats", Set.of(),
             "/reviews", Set.of("bookId", "id")
     );
