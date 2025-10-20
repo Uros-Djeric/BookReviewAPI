@@ -68,7 +68,9 @@ public class BookController {
     }
 
 
-    @Operation(summary = "Get all book statistics")
+    @Operation(
+            summary = "Get all book statistics",
+            description = "Looks at all books and gives average stats for reviews on books")
     @GetMapping("/stats")
     public ResponseEntity<?> getStats() {
         return ResponseEntity.ok(bookService.getBookStats());
