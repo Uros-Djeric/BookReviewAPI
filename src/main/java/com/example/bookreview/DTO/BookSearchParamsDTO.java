@@ -4,10 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.springframework.format.annotation.NumberFormat;
 
 @Data
-public class BookSearchParams {
+public class BookSearchParamsDTO {
 
     @Schema(description = "Filter by title (optional)")
     @Size(max = 100, message = "title too long")
@@ -24,12 +23,4 @@ public class BookSearchParams {
     @Schema(description = "Define sorting order (asc/desc) (optional)")
     @Pattern(regexp = "asc|desc", message = "sortDir must be 'asc' or 'desc'")
     private String sortDir;
-
-//    @Schema(hidden = true)
-//    @NumberFormat
-//    private Integer page;
-//
-//    @Schema(hidden = true)
-//    @NumberFormat
-//    private Integer size;
 }

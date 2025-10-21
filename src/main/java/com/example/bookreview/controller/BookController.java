@@ -1,11 +1,10 @@
 package com.example.bookreview.controller;
 
-import com.example.bookreview.DTO.BookSearchParams;
+import com.example.bookreview.DTO.BookSearchParamsDTO;
 import com.example.bookreview.exception.ResourceNotFoundException;
 import com.example.bookreview.model.Book;
 import com.example.bookreview.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -65,11 +64,10 @@ public class BookController {
             description = "Search all books by specific field, all fields are optional"
     )
     @GetMapping("/search")
-    public ResponseEntity<?> searchBooks(@Valid @ParameterObject BookSearchParams params) {
-        List<Book> results = bookService.searchBooks(params.getTitle(), params.getAuthor());
-        return ResponseEntity.ok(results);
+    public ResponseEntity<?> searchBooks(@Valid @ParameterObject BookSearchParamsDTO params) {
+        List<Book> results = bookService.searchBooks(params);
+        return ResponseEntity.ok(Map.of("data", results));
     }
-
 
     @Operation(
             summary = "Get all book statistics",
