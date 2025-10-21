@@ -42,23 +42,6 @@ public class BookReviewService {
         reviewRepository.deleteById(id);
     }
 
-//    public BookReview updateReview(Long id, BookReviewUpdateDTO dto) {
-//        BookReview existing = reviewRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
-//
-//        if (dto.getReviewerName() != null) {
-//            existing.setReviewerName(dto.getReviewerName());
-//        }
-//        if (dto.getRating() != null) {
-//            existing.setRating(dto.getRating());
-//        }
-//        if (dto.getComment() != null) {
-//            existing.setComment(dto.getComment());
-//        }
-//
-//        return reviewRepository.save(existing);
-//    }
-
     public BookReview updateReview(Long id, BookReviewUpdateDTO dto) {
         BookReview existing = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
@@ -84,5 +67,4 @@ public class BookReviewService {
 
         BeanUtils.copyProperties(src, target, nullProps);
     }
-
 }
