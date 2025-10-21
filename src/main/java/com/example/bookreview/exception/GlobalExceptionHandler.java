@@ -41,27 +41,20 @@ public class GlobalExceptionHandler {
     // === Validation and input errors ===
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException ex) {
-        // 🔹 ovo će ispisati ceo stack trace u konzoli
         log.error("Validation error occurred", ex);
 
-        List<String> missingFields = ex.getBindingResult().getFieldErrors().stream()
-                .map(FieldError::getField)
-                .distinct()
+        // Uzimamo sve stvarne validacione poruke
+        List<String> messages = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + " " + error.getDefaultMessage())
                 .collect(Collectors.toList());
 
-        String message;
-        if (missingFields.isEmpty()) {
-            message = "Validation failed.";
-        } else if (missingFields.size() == 1) {
-            message = "Missing field '" + missingFields.get(0) + "'";
-        } else {
-            message = "Missing fields: " + String.join(", ", missingFields);
-        }
+        String message = String.join(", ", messages);
 
         return ResponseEntity.badRequest().body(
                 Map.of("error", Map.of("code", "400", "message", message))
         );
     }
+
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +84,7 @@ public class BookReviewController {
     @Operation(summary = "Updates an existing review")
     @PutMapping("/update")
     public ResponseEntity<?> updateReview(@RequestParam(required = true) Long id,
-                                          @Valid @RequestBody BookReviewUpdateDTO reviewDTO) {
+                                          @Valid @RequestBody @ParameterObject BookReviewUpdateDTO reviewDTO) {
         BookReview updated = reviewService.updateReview(id, reviewDTO);
         if (updated == null) {
             throw new ResourceNotFoundException("Review not found");
