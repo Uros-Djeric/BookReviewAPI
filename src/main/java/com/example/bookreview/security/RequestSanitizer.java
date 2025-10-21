@@ -43,7 +43,7 @@ public class RequestSanitizer implements HandlerInterceptor {
                     .map(p -> "'" + p + "'")
                     .collect(Collectors.joining(", "));
 
-            throw new IllegalArgumentException("Unknown query parameter" +
+            throw new IllegalArgumentException("BAD REQUEST! Unknown query parameter" +
                     (invalid.size() > 1 ? "s: " : ": ") + invalidParams);
         }
 

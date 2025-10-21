@@ -31,11 +31,12 @@ public class BookReview {
     @NotNull(message = "bookId cannot be null")
     private Long bookId;
 
+    @NotNull(message = "cannot be null")
     private String reviewerName;
 
-    @NotNull(message = "rating cannot be null")
-    @Min(value = 1, message = "rating must be at least 1")
-    @Max(value = 5, message = "rating cannot be more than 5")
+    @NotNull(message = "cannot be null")
+    @Min(value = 1, message = "must be at least 1")
+    @Max(value = 5, message = "cannot be more than 5")
     private Integer rating; // 1-5
 
     private String comment;

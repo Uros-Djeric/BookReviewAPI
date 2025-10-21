@@ -30,6 +30,9 @@ public class BookController {
     )
     @PostMapping
     public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
+        if (book.getId() != null) {
+            throw new IllegalArgumentException("ID must not be provided when creating a new book");
+        }
         Book saved = bookService.addBook(book);
         return ResponseEntity.ok(saved);
     }

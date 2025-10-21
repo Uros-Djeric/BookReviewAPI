@@ -21,8 +21,10 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(hidden = true)
     private Long id;
+
     @NotBlank(message = "must not be blank")
     private String title;
+
     @NotBlank(message = "must not be blank")
     private String author;
 }

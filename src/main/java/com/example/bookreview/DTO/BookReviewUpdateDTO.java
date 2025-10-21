@@ -1,5 +1,6 @@
 package com.example.bookreview.DTO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jdk.jfr.Description;
@@ -17,4 +18,9 @@ public class BookReviewUpdateDTO {
 
     @Description("Optional comment")
     private String comment;
+
+    @Schema(hidden = true)
+    public boolean isEmpty() {
+        return reviewerName == null && rating == null && comment == null;
+    }
 }
