@@ -22,9 +22,9 @@ public class Book {
     @Schema(hidden = true)
     private Long id;
 
-    @NotBlank(message = "must not be blank")
+    @NotBlank(message = "title must not be blank")
     private String title;
 
-    @NotBlank(message = "must not be blank")
+    @NotBlank(message = "author must not be blank")
     private String author;
 }
