@@ -27,7 +27,7 @@ BookReviewAPI/
     │   │   │   └── BookReviewRepository.java
     │   │   │
     │   │   ├── model/                          # JPA entiteti
-    │   │   │   ├── ApiResponse.java
+    │   │   │   ├── Book.java
     │   │   │   └── BookReview.java
     │   │   │
     │   │   ├── DTO/                          # DTO objekti
