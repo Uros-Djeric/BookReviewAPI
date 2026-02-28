@@ -1,11 +1,15 @@
 package com.example.bookreview.service;
 
+import com.example.bookreview.DTO.BookSearchParamsDTO;
 import com.example.bookreview.exception.ResourceNotFoundException;
 import com.example.bookreview.model.Book;
 import com.example.bookreview.model.BookReview;
 import com.example.bookreview.repository.BookRepository;
 import com.example.bookreview.repository.BookReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,11 +45,21 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public List<Book> searchBooks(String title, String author) {
-        return bookRepository.findAll().stream()
-                .filter(b -> title == null || b.getTitle().toLowerCase().contains(title.toLowerCase()))
-                .filter(b -> author == null || b.getAuthor().toLowerCase().contains(author.toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Book> searchBooks(BookSearchParamsDTO params) {
+        // Ako nije prosleđen sortField, podrazumevano sortiraj po ID
+        String sortField = (params.getSortField() != null) ? params.getSortField() : "id";
+
+        // Ako nije prosleđen sortDir, koristi rastuće
+        Sort.Direction direction = "desc".equalsIgnoreCase(params.getSortDir())
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+
+        Sort sort = Sort.by(direction, sortField);
+        Pageable pageable = Pageable.unpaged(sort);
+
+        Page<Book> page = bookRepository.search(params.getTitle(), params.getAuthor(), pageable);
+
+        return page.getContent();
     }
 
     public Map<String, Object> getBookStats() {

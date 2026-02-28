@@ -6,9 +6,12 @@ import com.example.bookreview.model.BookReview;
 import com.example.bookreview.repository.BookRepository;
 import com.example.bookreview.repository.BookReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.beans.PropertyDescriptor;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,7 +22,6 @@ public class BookReviewService {
     private final BookRepository bookRepository;
 
     public BookReview addReview(BookReview review) {
-        // Edge case bug: ne validira rating i bookId
         if (!bookRepository.existsById(review.getBookId())) {
             throw new IllegalArgumentException("Book with id " + review.getBookId() + " does not exist");
         }
@@ -42,19 +44,27 @@ public class BookReviewService {
 
     public BookReview updateReview(Long id, BookReviewUpdateDTO dto) {
         BookReview existing = reviewRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
 
-        if (dto.getReviewerName() != null) {
-            existing.setReviewerName(dto.getReviewerName());
-        }
-        if (dto.getRating() != null) {
-            existing.setRating(dto.getRating());
-        }
-        if (dto.getComment() != null) {
-            existing.setComment(dto.getComment());
-        }
+        copyNonNullProperties(dto, existing);
 
         return reviewRepository.save(existing);
     }
 
+    private void copyNonNullProperties(Object src, Object target) {
+        String[] nullProps = Arrays.stream(BeanUtils.getPropertyDescriptors(src.getClass()))
+                .map(PropertyDescriptor::getName)
+                .filter(name -> {
+                    try {
+                        Object value = new PropertyDescriptor(name, src.getClass())
+                                .getReadMethod().invoke(src);
+                        return value == null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                })
+                .toArray(String[]::new);
+
+        BeanUtils.copyProperties(src, target, nullProps);
+    }
 }

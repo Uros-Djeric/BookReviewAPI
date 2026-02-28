@@ -1,7 +1,9 @@
 package com.example.bookreview.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 class AbstractApiException extends RuntimeException {
 
     private final HttpStatus status;
@@ -11,7 +13,4 @@ class AbstractApiException extends RuntimeException {
         this.status = status;
     }
 
-    public HttpStatus getStatus() {
-        return  status;
-    }
 }

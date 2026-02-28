@@ -21,6 +21,8 @@ import java.util.List;
                 description = """
                         REST API za upravljanje knjigama i recenzijama.
                         
+                        Prvi korak -> auth-controller generisanje tokena sa bilo kojim username-om i onda kliknite na Authorize (katanac i paste token unutra, pocinje sa ey...)
+                        
                         Koristi JWT autentifikaciju, RequestSanitizer filter i centralizovano rukovanje greškama.
                         """
         ),

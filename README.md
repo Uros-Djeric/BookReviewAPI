@@ -3,6 +3,12 @@
 Book Review API je REST aplikacija razvijena u Spring Boot-u, koja implementira slojevitu arhitekturu sa JWT autentikacijom, validacijom i centralizovanim rukovanjem greškama.
 Projekat demonstrira principe čiste arhitekture, jasne separacije odgovornosti i dobrih praksi u dizajnu API-ja.
 
+  
+
+### Pregled Endpoint metoda: Pokrenuti BookReviewApplication i onda otići na http://localhost:8080/swagger-ui.html
+
+  
+
 ## 📁 Struktura projekta
 Aplikacija koristi slojevitu arhitekturu, sa sledećim logičkim paketima:
 ```python
@@ -10,61 +16,64 @@ com.example.bookreview
 BookReviewAPI/
 ├── pom.xml                          # Maven build fajl (zavisnosti i konfiguracija)
 └── src/
-    ├── main/
-    │   ├── java/com/example/bookreview/
-    │   │   ├── BookReviewApplication.java      # Ulazna tačka Spring Boot aplikacije
-    │   │   │
-    │   │   ├── controller/                     # REST kontroleri
-    │   │   │   ├── BookController.java
-    │   │   │   └── BookReviewController.java
-    │   │   │
-    │   │   ├── service/                        # Poslovna logika
-    │   │   │   ├── BookService.java
-    │   │   │   └── BookReviewService.java
-    │   │   │
-    │   │   ├── repository/                     # Pristup bazi (Spring Data JPA)
-    │   │   │   ├── BookRepository.java
-    │   │   │   └── BookReviewRepository.java
-    │   │   │
-    │   │   ├── model/                          # JPA entiteti
-    │   │   │   ├── Book.java
-    │   │   │   └── BookReview.java
-    │   │   │
-    │   │   ├── DTO/                          # DTO objekti
-    │   │   │   ├── BookReviewUpdateDTO.java
-    │   │   │   └── BookSearchParams.java
-    │   │   │
-    │   │   ├── exception/                      # Prilagođeni izuzeci
-    │   │   │   ├── GlobalExceptionHandler.java
-    │   │   │   ├── AbstractApiException.java
-    │   │   │   ├── ResourceNotFoundException.java
-    │   │   │   └── UnauthorizedException.java
-    │   │   │
-    │   │   ├── utils/                       
-    │   │   │   └── JWTUtil.java                # JWT utils klasa za generisanje tokena
-    │   │   │
-    │   │   ├── security/                       # JWT autentikacija i validacija parametara
-    │   │   │   ├── JwtAuthFilter.java
-    │   │   │   ├── JWTUtil.java
-    │   │   │   └── RequestSanitizer.java
-    │   │   │
-    │   │   └── config/                         # Konfiguracija filtera i interceptora
-    │   │       ├── FilterConfig.java
-    │   │       └── WebConfig.java
-    │   │
-    │   └── resources/
-    │       └── application.properties          # Konfiguracija baze i aplikacije
-    │
-    └── test/groovy/                            # Primer strukture Groovy testova
-        └── com/example/bookreview/
-            └── ExampleSpec.groovy
+ ├── main/
+ │   ├── java/com/example/bookreview/
+ │   │   ├── BookReviewApplication.java      # Ulazna tačka Spring Boot aplikacije
+ │   │   │
+ │   │   ├── controller/                     # REST kontroleri
+ │   │   │   ├── BookController.java
+ │   │   │   ├── AuthController.java
+ │   │   │   └── BookReviewController.java
+ │   │   │
+ │   │   ├── service/                        # Poslovna logika
+ │   │   │   ├── BookService.java
+ │   │   │   └── BookReviewService.java
+ │   │   │
+ │   │   ├── repository/                     # Pristup bazi (Spring Data JPA)
+ │   │   │   ├── BookRepository.java
+ │   │   │   └── BookReviewRepository.java
+ │   │   │
+ │   │   ├── model/                          # JPA entiteti
+ │   │   │   ├── ApiResponse.java
+ │   │   │   └── BookReview.java
+ │   │   │
+ │   │   ├── DTO/                          # DTO objekti
+ │   │   │   ├── BookReviewUpdateDTO.java
+ │   │   │   └── BookSearchParams.java
+ │   │   │
+ │   │   ├── exception/                      # Prilagođeni izuzeci
+ │   │   │   ├── GlobalExceptionHandler.java
+ │   │   │   ├── AbstractApiException.java
+ │   │   │   ├── ResourceNotFoundException.java
+ │   │   │   └── UnauthorizedException.java
+ │   │   │
+ │   │   ├── utils/ 
+ │   │   │   └── JWTUtil.java                # JWT utils klasa za generisanje tokena
+ │   │   │
+ │   │   ├── security/                       # JWT autentikacija i validacija parametara
+ │   │   │   ├── JwtAuthFilter.java
+ │   │   │   ├── JWTUtil.java
+ │   │   │   └── RequestSanitizer.java
+ │   │   │
+ │   │   └── config/                         # Konfiguracija filtera, swagger-a i interceptora
+ │   │       ├── FilterConfig.java
+ │   │       ├── SwaggerConfig.java
+ │   │       └── WebConfig.java
+ │   │
+ │   └── resources/
+ │       └── application.properties          # Konfiguracija baze i aplikacije
+ │
+ └── test/groovy/                            # Primer strukture Groovy testova
+ └── com/example/bookreview/
+ └── ExampleSpec.groovy
 ```
 
 
 ## Paketi i slojevi
+
 ### 1. Controller sloj
 Rukuje HTTP zahtevima i prosleđuje ih servisima.
-Ne sadrži poslovnu logiku.
+  
 
 **BookController**
 
